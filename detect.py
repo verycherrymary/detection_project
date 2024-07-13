@@ -83,7 +83,7 @@ output_filename = 'mouse_new.jpg'
 output_path = os.path.join(output_dir, output_filename)
 # Сохраняем изображение в формате JPEG
 img.save(output_path, format='JPEG')
-mouse_img='img_mouse\mouse_new.jpg'
+mouse_img='img_mouse//mouse_new.jpg'
 # визуализация детекции готовой моделью roboflow на картинке
 model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
 a=model_rob.predict(mouse_img, confidence=40, overlap=30).json()
@@ -99,7 +99,7 @@ uploaded_video = st.sidebar.file_uploader("#### Выберите файл (ви�
 # Проверка наличия загруженного файла
 if uploaded_video is not None:
     # Сохранение файла в папку
-    with open('img_mouse/video_new.mp4', 'wb') as f:
+    with open('img_mouse//video_new.mp4', 'wb') as f:
         f.write(uploaded_video.getbuffer())
 st.write("##### Видео с детекцией откроется в отдельном окне windows, не браузера")
 st.write("##### Для повторного просмотра этого же видео нажмите Rerun")
