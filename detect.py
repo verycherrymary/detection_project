@@ -3,7 +3,6 @@ from roboflow import Roboflow
 import streamlit as st
 from IPython import display
 display.clear_output()
-import cv2
 import ultralytics
 ultralytics.checks()
 from ultralytics import YOLO
