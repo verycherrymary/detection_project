@@ -84,7 +84,7 @@ output_path = os.path.join(output_dir, output_filename)
 st.write(output_path)
 # Сохраняем изображение в формате JPEG
 img.save(output_path, format='JPEG')
-mouse_img=Path.cwd() /'img_mouse//mouse_new.jpg'
+mouse_img=output_path
 # визуализация детекции готовой моделью roboflow на картинке
 model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
 a=model_rob.predict(mouse_img, confidence=40, overlap=30).json()
