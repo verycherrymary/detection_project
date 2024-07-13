@@ -3,7 +3,7 @@ import streamlit as st
 # import ultralytics
 # ultralytics.checks()
 from ultralytics import YOLO
-from IPython.display import display
+# from IPython.display import display
 import os
 from PIL import Image as ImagePIL
 from roboflow import Roboflow
