@@ -1,0 +1,9 @@
+names:
+- '-'
+- Rats - v1 2022-06-23 6-52pm
+- rodent
+nc: 3
+path: /kaggle/working/cuterat-3
+test: ../test/images
+train: ../train/images
+val: ../valid/images
