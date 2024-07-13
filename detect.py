@@ -1,7 +1,7 @@
 from pathlib import Path
 import streamlit as st
-import ultralytics
-ultralytics.checks()
+# import ultralytics
+# ultralytics.checks()
 from ultralytics import YOLO
 from IPython.display import display
 import os
@@ -86,11 +86,11 @@ st.write(output_path)
 img.save(output_path, format='JPEG')
 mouse_img=output_path
 # визуализация детекции готовой моделью roboflow на картинке
-model_rob.predict(mouse_img, confidence=30, overlap=30).save("prediction.jpg")
+model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
 st.write("### Посмотрите результат детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
 def check_for_mice(image_path):
     """Проверяет наличие грызунов на изображении."""
-    a = model_rob.predict(image_path, confidence=30, overlap=30).json()
+    a = model_rob.predict(image_path, confidence=40, overlap=30).json()
     pred=a['predictions']
     if len(pred) == 0:
         st.write('##### Грызуны не обнаружены')
