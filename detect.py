@@ -86,12 +86,18 @@ st.write(output_path)
 img.save(output_path, format='JPEG')
 mouse_img=output_path
 # визуализация детекции готовой моделью roboflow на картинке
-model_rob.predict(mouse_img, confidence=10, overlap=30).save("prediction.jpg")
-a=model_rob.predict(mouse_img, confidence=10, overlap=30).json()
-pred=a['predictions']
-first = pred [0]
+model_rob.predict(mouse_img, confidence=30, overlap=30).save("prediction.jpg")
 st.write("### Посмотрите результат детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
-st.write('##### Класс:', first['class'], 'Вероятность:','{:.2f}'.format(first['confidence']))
+def check_for_mice(image_path):
+    """Проверяет наличие грызунов на изображении."""
+    a = model_rob.predict(image_path, confidence=30, overlap=30).json()
+    pred=a['predictions']
+    if len(pred) == 0:
+        st.write('##### Грызуны не обнаружены')
+    else:
+        first = pred [0]
+        st.write('##### Класс:', first['class'], 'Вероятность:','{:.2f}'.format(first['confidence']))
+check_for_mice(mouse_img)
 st.image('prediction.jpg')
 
 
