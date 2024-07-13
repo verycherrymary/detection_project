@@ -78,12 +78,13 @@ if uploaded_file is not None:
     # Преобразуем объект BytesIO в изображение PIL
     img = ImagePIL.open(uploaded_file)
 # Создаем путь к папке для сохранения
-output_dir = 'img_mouse'
+output_dir = Path.cwd() /'img_mouse'
 output_filename = 'mouse_new.jpg'
 output_path = os.path.join(output_dir, output_filename)
+st.write(output_path)
 # Сохраняем изображение в формате JPEG
 img.save(output_path, format='JPEG')
-mouse_img='img_mouse//mouse_new.jpg'
+mouse_img=Path.cwd() /'img_mouse//mouse_new.jpg'
 # визуализация детекции готовой моделью roboflow на картинке
 model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
 a=model_rob.predict(mouse_img, confidence=40, overlap=30).json()
