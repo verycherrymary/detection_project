@@ -86,8 +86,8 @@ st.write(output_path)
 img.save(output_path, format='JPEG')
 mouse_img=output_path
 # визуализация детекции готовой моделью roboflow на картинке
-model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
-a=model_rob.predict(mouse_img, confidence=40, overlap=30).json()
+model_rob.predict(mouse_img, confidence=10, overlap=30).save("prediction.jpg")
+a=model_rob.predict(mouse_img, confidence=10, overlap=30).json()
 pred=a['predictions']
 first = pred [0]
 st.write("### Посмотрите результат детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
@@ -100,11 +100,12 @@ uploaded_video = st.sidebar.file_uploader("#### Выберите файл (ви�
 # Проверка наличия загруженного файла
 if uploaded_video is not None:
     # Сохранение файла в папку
-    with open('img_mouse//video_new.mp4', 'wb') as f:
+    with open(Path.cwd() /'img_mouse//video_new.mp4', 'wb') as f:
         f.write(uploaded_video.getbuffer())
 st.write("##### Видео с детекцией откроется в отдельном окне windows, не браузера")
 st.write("##### Для повторного просмотра этого же видео нажмите Rerun")
-source = "img_mouse//video_new.mp4"
+source =Path.cwd() / "img_mouse//video_new.mp4"
+st.write(source)
 # детекция грызунов по видео без сохранения, с показом в отдельном окне windows
 results = model_yolo(source, save=False, show=True)
 # video_file = open('runs//detect//predict4//video_mouse.avi', 'rb')
