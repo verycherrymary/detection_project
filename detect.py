@@ -1,14 +1,12 @@
 from pathlib import Path
-from roboflow import Roboflow
 import streamlit as st
-from IPython import display
-display.clear_output()
 import ultralytics
 ultralytics.checks()
 from ultralytics import YOLO
-from IPython.display import display, clear_output
+from IPython.display import display
 import os
 from PIL import Image as ImagePIL
+from roboflow import Roboflow
 
 # ====================== главная страница ============================
 # параметры главной страницы
