@@ -1,6 +1,7 @@
 from pathlib import Path
+# import time
 import streamlit as st
-import subprocess
+# import subprocess
 # import ultralytics
 # ultralytics.checks()
 from ultralytics import YOLO
@@ -8,6 +9,7 @@ from ultralytics import YOLO
 import os
 from PIL import Image as ImagePIL
 from roboflow import Roboflow
+# import shutil
 
 # ====================== главная страница ============================
 # параметры главной страницы
@@ -109,22 +111,35 @@ if uploaded_video is not None:
     # Сохранение файла в папку
     with open(Path.cwd() /'img_mouse//video_new.mp4', 'wb') as f:
         f.write(uploaded_video.getbuffer())
-st.write("##### Видео с детекцией откроется ниже, нужно время для загрузки")
+st.write("##### Демонстрация видео с детекцией доступно пока только в локальной версии приложения")
 source =Path.cwd() / "img_mouse//video_new.mp4"
 # st.write(source)
 # детекция грызунов по видео без сохранения, с показом в отдельном окне windows
-results = model_yolo(source, save=True, show=False)
+results = model_yolo(source, save=False, show=True)
 # Укажите путь к вашему видео в формате AVI
-input_video_path= Path.cwd() / "runs//detect//predict//video_new.avi"
-st.write(input_video_path)
-# Создайте путь для сохранения нового видео в формате MP4
-output_video_path = input_video_path.with_suffix('.mp4')
-st.write(output_video_path)
-# Запустите команду ffmpeg для конвертации видео
-subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
-# После завершения конвертации вы можете прочитать новый файл MP4
-video_path=Path.cwd() / "runs//detect//predict//video_new.mp4"
-video_file = open(video_path, 'rb')
-video_bytes = video_file.read()
-st.video(video_bytes)
+# input_video_path= Path.cwd() / "runs//detect//predict//video_new.avi"
+# st.write(input_video_path)
+# # Создайте путь для сохранения нового видео в формате MP4
+# output_video_path = input_video_path.with_suffix('.mp4')
+# st.write(output_video_path)
+# # Запустите команду ffmpeg для конвертации видео
+# subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
+# # После завершения конвертации вы можете прочитать новый файл MP4
+# video_path=Path.cwd() / "runs//detect//predict//video_new.mp4"
+# video_file = open(video_path, 'rb')
+# video_bytes = video_file.read()
+# st.video(video_bytes)
+# # Получаем путь к папке runs
+# runs_path = Path.cwd() / "runs"
+# # Задержка на 10 секунд, чтобы пользователь мог просмотреть видео
+# time.sleep(10)
+
+# # Проверка, что видео закрыто
+# query_params = st.query_params()
+# if 'run_id' in query_params and query_params['run_id'] == '':
+#     print("Видео не было воспроизведено или не было закрыто.")
+# else:
+#     # Удаление папки runs
+#     if os.path.exists(runs_path):
+#         shutil.rmtree(runs_path)
 
