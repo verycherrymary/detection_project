@@ -115,9 +115,11 @@ source =Path.cwd() / "img_mouse//video_new.mp4"
 # детекция грызунов по видео без сохранения, с показом в отдельном окне windows
 results = model_yolo(source, save=True, show=False)
 # Укажите путь к вашему видео в формате AVI
-input_video_path= Path.cwd() / "runs/detect/predict/video_new.avi"
+input_video_path= Path.cwd() / "runs//detect//predict//video_new.avi"
+st.write(input_video_path)
 # Создайте путь для сохранения нового видео в формате MP4
 output_video_path = input_video_path.with_suffix('.mp4')
+st.write(output_video_path)
 # Запустите команду ffmpeg для конвертации видео
 subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
 # После завершения конвертации вы можете прочитать новый файл MP4
