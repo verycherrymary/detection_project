@@ -81,7 +81,7 @@ if uploaded_file is not None:
 output_dir = Path.cwd() /'img_mouse'
 output_filename = 'mouse_new.jpg'
 output_path = os.path.join(output_dir, output_filename)
-st.write(output_path)
+# st.write(output_path)
 # Сохраняем изображение в формате JPEG
 img.save(output_path, format='JPEG')
 mouse_img=output_path
@@ -111,10 +111,10 @@ if uploaded_video is not None:
 st.write("##### Видео с детекцией откроется в отдельном окне windows, не браузера")
 st.write("##### Для повторного просмотра этого же видео нажмите Rerun")
 source =Path.cwd() / "img_mouse//video_new.mp4"
-st.write(source)
+# st.write(source)
 # детекция грызунов по видео без сохранения, с показом в отдельном окне windows
-results = model_yolo(source, save=False, show=True)
+results = model_yolo(source, save=False, stream=True)
 # video_file = open('runs//detect//predict4//video_mouse.avi', 'rb')
 # video_bytes = video_file.read()
 
-# st.video(yolo_detect())
+
