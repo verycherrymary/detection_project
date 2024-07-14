@@ -1,5 +1,6 @@
 from pathlib import Path
 import streamlit as st
+import subprocess
 # import ultralytics
 # ultralytics.checks()
 from ultralytics import YOLO
@@ -108,13 +109,19 @@ if uploaded_video is not None:
     # Сохранение файла в папку
     with open(Path.cwd() /'img_mouse//video_new.mp4', 'wb') as f:
         f.write(uploaded_video.getbuffer())
-st.write("##### Видео с детекцией откроется в отдельном окне windows, не браузера")
-st.write("##### Для повторного просмотра этого же видео нажмите Rerun")
+st.write("##### Видео с детекцией откроется ниже, нужно время для загрузки")
 source =Path.cwd() / "img_mouse//video_new.mp4"
 # st.write(source)
 # детекция грызунов по видео без сохранения, с показом в отдельном окне windows
-results = model_yolo(source, save=False, stream=True)
-# video_file = open('runs//detect//predict4//video_mouse.avi', 'rb')
-# video_bytes = video_file.read()
-
+results = model_yolo(source, save=True, show=False)
+# Укажите путь к вашему видео в формате AVI
+input_video_path= Path.cwd() / "runs/detect/predict/video_new.avi"
+# Создайте путь для сохранения нового видео в формате MP4
+output_video_path = input_video_path.with_suffix('.mp4')
+# Запустите команду ffmpeg для конвертации видео
+subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
+# После завершения конвертации вы можете прочитать новый файл MP4
+video_file = open(output_video_path, 'rb')
+video_bytes = video_file.read()
+st.video(video_bytes)
 
