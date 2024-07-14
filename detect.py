@@ -123,7 +123,8 @@ st.write(output_video_path)
 # Запустите команду ffmpeg для конвертации видео
 subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
 # После завершения конвертации вы можете прочитать новый файл MP4
-video_file = open(output_video_path, 'rb')
+video_path=Path.cwd() / "runs//detect//predict//video_new.mp4"
+video_file = open(video_path, 'rb')
 video_bytes = video_file.read()
 st.video(video_bytes)
 
