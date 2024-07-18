@@ -9,7 +9,7 @@ from ultralytics import YOLO
 import os
 from PIL import Image as ImagePIL
 from roboflow import Roboflow
-# import shutil
+
 
 # ====================== главная страница ============================
 # параметры главной страницы
@@ -74,8 +74,60 @@ st.write(
 # 3 control
 st.image(image)
 
-# Добавление элемента управления загрузкой файла
-uploaded_file = st.sidebar.file_uploader("#### Выберите файл (картинку) для загрузки, иначе будет ошибка")
+# функция по отображению класса и вероятности для детекции картинки
+def check_for_mice(image_path):
+    """Проверяет наличие грызунов на изображении."""
+    a = model_rob.predict(image_path, confidence=40, overlap=30).json()
+    pred=a['predictions']
+    if len(pred) == 0:
+        st.write('##### Грызуны не обнаружены')
+    else:
+        first = pred [0]
+        st.write('##### Класс:', first['class'], 'Вероятность:','{:.2f}'.format(first['confidence']))
+
+# загрузка примера картинки с детекцией
+path_to_images = Path.cwd() /'pred_mouse' # путь к папке с детектирован.изображениями
+# Список путей к изображениям
+image_paths = []
+image_names = []
+# Перебор всех файлов в папке с изображениями
+for file in os.listdir(path_to_images):
+    if file.endswith('.jpg') or file.endswith('.png'):
+        image_paths.append(os.path.join(path_to_images, file))
+        image_names.append(file)
+# st.write(image_paths) 
+# st.write(image_names)
+# Создание кнопки selector
+button_selector = st.sidebar.selectbox('#### Выберите изображение из примеров детекции', image_paths)
+st.write("### Посмотрите пример детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
+st.image(button_selector)
+
+# загрузка примера видео с детекцией
+# Конвертация видео из формата avi в формат mp4
+# input_video_path= Path.cwd() /'pred_video//video_new2.avi'
+# st.write(input_video_path)
+# # Создайте путь для сохранения нового видео в формате MP4
+# output_video_path = input_video_path.with_suffix('.mp4')
+# st.write(output_video_path)
+# # Запустите команду ffmpeg для конвертации видео
+# subprocess.run(['ffmpeg', '-i', str(input_video_path), str(output_video_path)])
+path_to_video=Path.cwd() /'pred_video'
+# Список путей к изображениям
+video_paths = []
+# Перебор всех файлов в папке с изображениями
+for file in os.listdir(path_to_video):
+    if file.endswith('.mp4'):
+        video_paths.append(os.path.join(path_to_video, file))
+# st.write(video_paths)
+# Создание кнопки selector
+button_selector = st.sidebar.selectbox('#### Выберите видео из примеров детекции', video_paths)
+st.write("### Посмотрите пример детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
+# video_file = open(button_selector, 'rb')
+# video_bytes = video_file.read()
+st.video(button_selector)
+
+# Добавление элемента управления загрузкой картинки
+uploaded_file = st.sidebar.file_uploader("#### Выберите свое изображение для загрузки, иначе будет ошибка")
 # Проверяем, был ли загружен файл
 if uploaded_file is not None:
     # Преобразуем объект BytesIO в изображение PIL
@@ -91,21 +143,11 @@ mouse_img=output_path
 # визуализация детекции готовой моделью roboflow на картинке
 model_rob.predict(mouse_img, confidence=40, overlap=30).save("prediction.jpg")
 st.write("### Посмотрите результат детекции ниже - rats, rodent (крысы, мыши,грызуны)):")
-def check_for_mice(image_path):
-    """Проверяет наличие грызунов на изображении."""
-    a = model_rob.predict(image_path, confidence=40, overlap=30).json()
-    pred=a['predictions']
-    if len(pred) == 0:
-        st.write('##### Грызуны не обнаружены')
-    else:
-        first = pred [0]
-        st.write('##### Класс:', first['class'], 'Вероятность:','{:.2f}'.format(first['confidence']))
 check_for_mice(mouse_img)
 st.image('prediction.jpg')
 
-
 # Добавление элемента управления загрузкой видеофайла
-uploaded_video = st.sidebar.file_uploader("#### Выберите файл (видео) для загрузки, иначе будет ошибка")
+uploaded_video = st.sidebar.file_uploader("#### Выберите свое видео для загрузки, иначе будет ошибка")
 # Проверка наличия загруженного файла
 if uploaded_video is not None:
     # Сохранение файла в папку
@@ -129,17 +171,5 @@ results = model_yolo(source, save=False, show=True)
 # video_file = open(video_path, 'rb')
 # video_bytes = video_file.read()
 # st.video(video_bytes)
-# # Получаем путь к папке runs
-# runs_path = Path.cwd() / "runs"
-# # Задержка на 10 секунд, чтобы пользователь мог просмотреть видео
-# time.sleep(10)
 
-# # Проверка, что видео закрыто
-# query_params = st.query_params()
-# if 'run_id' in query_params and query_params['run_id'] == '':
-#     print("Видео не было воспроизведено или не было закрыто.")
-# else:
-#     # Удаление папки runs
-#     if os.path.exists(runs_path):
-#         shutil.rmtree(runs_path)
 
